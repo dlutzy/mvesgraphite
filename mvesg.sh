@@ -17,7 +17,7 @@ INFOFILE=`mktemp /tmp/mvesg.$friendlyhost.XXXXXX`
 responsetime=`cat $INFOFILE.time | tail -n 1`
 echo "elasticsearch.$friendlyhost.responsetime $responsetime $now" 
 
-for i in indices.docs.count indices.docs.deleted indices.store.size_in_bytes indexing.index_total jvm.threads.count network.tcp.curr_estab 
+for i in indices.docs.count indices.docs.deleted indices.store.size_in_bytes indices.indexing.index_total jvm.threads.count network.tcp.curr_estab 
 do
 
  out=`cat $INFOFILE | jgrep --start nodes.*.$i | grep [0-9]`
