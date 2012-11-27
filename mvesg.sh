@@ -3,9 +3,9 @@
 # Minimum Viable ElasticSearch Graphite 
 # David Lutz 2012-10-19
 # run with argument elasticsearchserver
-# requires gem jgrep
+# requires ruby gem jgrep
 # run from cron like this
-# */5	*	*	*	*	/opt/mvesg.sh elasticsearchserver  | nc -w 20 your.graphite.server 2003
+# */5	*	*	*	*	/opt/mvesgraphite/mvesg.sh elasticsearchserver  | nc -w 20 your.graphite.server 2003
 
 eshost=$1
 friendlyhost=`echo $eshost | sed 's/\./_/g'`
@@ -17,7 +17,7 @@ INFOFILE=`mktemp /tmp/mvesg.$friendlyhost.XXXXXX`
 responsetime=`cat $INFOFILE.time | tail -n 1`
 echo "elasticsearch.$friendlyhost.responsetime $responsetime $now" 
 
-for i in indices.docs.count indices.docs.deleted indices.store.size_in_bytes indices.indexing.index_total jvm.threads.count network.tcp.curr_estab 
+for i in indices.docs.count indices.docs.deleted indices.store.size_in_bytes indices.indexing.index_total jvm.threads.count network.tcp.curr_estab http.total_opened thread_pool.search.active thread_pool.search.threads indices.cache.filter_size_in_bytes indices.cache.field_size_in_bytes indices.cache.filter_count jvm.mem.heap_used_in_bytes jvm.mem.non_heap_used_in_bytes
 do
 
  out=`cat $INFOFILE | jgrep --start nodes.*.$i | grep [0-9]`
